@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:multi_app/screens/jokes/jokes_screen.dart';
 import 'package:multi_app/screens/main_screen.dart';
-import 'package:your_app/screens/weather_screen.dart';
-import 'package:your_app/screens/movie_screen.dart';
-import 'package:your_app/screens/time_zone_screen.dart';
-import 'package:your_app/screens/news_screen.dart';
+import 'package:multi_app/screens/movie/movie_screen.dart';
+import 'package:multi_app/screens/news/news_screen.dart';
+import 'package:multi_app/screens/time_zone/time_zone_screen.dart';
+import 'package:multi_app/screens/weather/weather_screen.dart';
 
 void main() {
   runApp(MyApp());
