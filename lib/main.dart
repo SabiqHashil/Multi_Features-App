@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
-import 'screens/common_screen.dart';
-import 'screens/weather_screen.dart';
-import 'screens/movie_screen.dart';
-import 'screens/time_screen.dart';
-import 'screens/news_screen.dart';
-import 'screens/joke_screen.dart';
+import 'package:multi_app/screens/jokes/jokes_screen.dart';
+import 'package:multi_app/screens/main_screen.dart';
+import 'package:your_app/screens/weather_screen.dart';
+import 'package:your_app/screens/movie_screen.dart';
+import 'package:your_app/screens/time_zone_screen.dart';
+import 'package:your_app/screens/news_screen.dart';
 
 void main() {
   runApp(MyApp());
@@ -14,18 +14,19 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Multi-Functional App',
+      title: 'Multi-functional App',
       theme: ThemeData(
         primarySwatch: Colors.blue,
+        visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
       initialRoute: '/',
       routes: {
-        '/': (context) => CommonScreen(),
+        '/': (context) => MainScreen(),
         '/weather': (context) => WeatherScreen(),
-        '/movies': (context) => MovieScreen(),
-        '/time': (context) => TimeScreen(),
+        '/movie': (context) => MovieScreen(),
+        '/timezone': (context) => TimeZoneScreen(),
         '/news': (context) => NewsScreen(),
-        '/jokes': (context) => JokeScreen(),
+        '/additional': (context) => JokesScreen(),
       },
     );
   }

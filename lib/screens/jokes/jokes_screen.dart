@@ -1,17 +1,14 @@
 import 'package:flutter/material.dart';
 
-class NewsScreen extends StatelessWidget {
+class JokesScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('News Screen'),
+        title: Text('Jokes'),
       ),
       body: Center(
-        child: Text(
-          'Top News',
-          style: TextStyle(fontSize: 20),
-        ),
+        child: Text('Display jokes here'),
       ),
     );
   }
