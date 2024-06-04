@@ -5,12 +5,18 @@ class MainScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Main Screen'),
+        title: Text('Multi Functionalities App'),
       ),
       body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
+        child: ListView(
+          padding: EdgeInsets.all(16.0),
           children: [
+            ElevatedButton(
+              onPressed: () {
+                Navigator.pushNamed(context, '/jokes');
+              },
+              child: Text('Jokes'),
+            ),
             ElevatedButton(
               onPressed: () {
                 Navigator.pushNamed(context, '/weather');
@@ -34,12 +40,6 @@ class MainScreen extends StatelessWidget {
                 Navigator.pushNamed(context, '/news');
               },
               child: Text('News'),
-            ),
-            ElevatedButton(
-              onPressed: () {
-                Navigator.pushNamed(context, '/jokes');
-              },
-              child: Text('Jokes'),
             ),
           ],
         ),
