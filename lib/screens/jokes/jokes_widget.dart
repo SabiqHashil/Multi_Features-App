@@ -8,7 +8,11 @@ class JokeWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      child: Text(joke),
+      padding: EdgeInsets.all(16.0),
+      child: Text(
+        joke,
+        style: TextStyle(fontSize: 18.0),
+      ),
     );
   }
 }

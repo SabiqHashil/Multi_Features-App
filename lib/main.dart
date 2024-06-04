@@ -26,7 +26,7 @@ class MyApp extends StatelessWidget {
         '/movie': (context) => MovieScreen(),
         '/timezone': (context) => TimeZoneScreen(),
         '/news': (context) => NewsScreen(),
-        '/additional': (context) => JokesScreen(),
+        '/jokes': (context) => JokesScreen(),
       },
     );
   }
