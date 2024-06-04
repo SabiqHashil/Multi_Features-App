@@ -15,8 +15,14 @@ class _NewsScreenState extends State<NewsScreen> {
   @override
   void initState() {
     super.initState();
-    _newsFuture =
-        _newsApiClient.fetchNewsData('technology'); // Change category as needed
+    _fetchNews();
+  }
+
+  void _fetchNews() {
+    setState(() {
+      _newsFuture = _newsApiClient.fetchNewsData(
+          category: 'technology'); // Change category as needed
+    });
   }
 
   @override
@@ -35,21 +41,31 @@ class _NewsScreenState extends State<NewsScreen> {
             ),
             SizedBox(height: 20),
             ElevatedButton(
-              onPressed: () {
-                setState(() {
-                  _newsFuture = _newsApiClient.fetchNewsData('technology');
-                });
-              },
+              onPressed: _fetchNews,
               child: Text('Fetch News Updates'),
             ),
+            SizedBox(height: 20),
             Expanded(
               child: FutureBuilder<List<NewsModel>>(
                 future: _newsFuture,
                 builder: (context, snapshot) {
                   if (snapshot.connectionState == ConnectionState.waiting) {
-                    return CircularProgressIndicator();
+                    return Center(child: CircularProgressIndicator());
                   } else if (snapshot.hasError) {
-                    return Text('Error: ${snapshot.error}');
+                    return Center(
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Text('Error: ${snapshot.error}',
+                              style: TextStyle(color: Colors.red)),
+                          SizedBox(height: 10),
+                          ElevatedButton(
+                            onPressed: _fetchNews,
+                            child: Text('Retry'),
+                          ),
+                        ],
+                      ),
+                    );
                   } else if (snapshot.hasData) {
                     List<NewsModel> articles = snapshot.data!;
                     return ListView.builder(
@@ -63,7 +79,7 @@ class _NewsScreenState extends State<NewsScreen> {
                       },
                     );
                   } else {
-                    return Text('No news found');
+                    return Center(child: Text('No news found'));
                   }
                 },
               ),
