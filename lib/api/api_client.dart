@@ -94,8 +94,8 @@ const String apiKey = '5d91f746c410e1818137b90445eaeabe';
 const String baseUrl = 'https://api.themoviedb.org/3';
 
 Future<MovieModel> fetchMovieData(String query) async {
-  final response = await http
-      .get(Uri.parse('$baseUrl/search/movie?api_key=$apiKey&query=$query'));
+  final response = await http.get(
+      Uri.parse('$baseUrl/search/movie/movie_id?api_key=$apiKey&query=$query'));
   if (response.statusCode == 200) {
     final data = json.decode(response.body);
     if (data['results'] != null && data['results'].isNotEmpty) {
