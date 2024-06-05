@@ -2,13 +2,15 @@ import 'package:flutter/material.dart';
 
 class MovieWidget extends StatelessWidget {
   final String title;
-  final String director;
   final String releaseDate;
+  final String description;
+  final String imageUrl;
 
   MovieWidget({
     required this.title,
-    required this.director,
     required this.releaseDate,
+    required this.description,
+    required this.imageUrl,
   });
 
   @override
@@ -30,14 +32,28 @@ class MovieWidget extends StatelessWidget {
             ),
             SizedBox(height: 5),
             Text(
-              'Director: $director',
+              'Release Date: $releaseDate',
               style: TextStyle(fontSize: 16),
             ),
             SizedBox(height: 5),
             Text(
-              'Release Date: $releaseDate',
+              'Description: $description',
               style: TextStyle(fontSize: 16),
             ),
+            SizedBox(height: 5),
+            // Check if imageUrl is not null and not empty before displaying the image
+            if (imageUrl.isNotEmpty)
+              Image.network(
+                imageUrl,
+                width: double.infinity,
+                height: 500,
+                fit: BoxFit.cover,
+                errorBuilder: (context, error, stackTrace) {
+                  return Text('Image not available');
+                },
+              )
+            else
+              Text('Image not available'),
           ],
         ),
       ),

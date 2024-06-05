@@ -32,9 +32,9 @@ class MovieApiResponse {
 
   factory MovieApiResponse.fromJson(Map<String, dynamic> json) {
     return MovieApiResponse(
-      title: json['title'],
-      director: json['director'],
-      releaseDate: json['release_date'],
+      title: json['title'] ?? 'Unknown Title',
+      director: json['director'] ?? 'Unknown Director',
+      releaseDate: json['release_date'] ?? 'Unknown Release Date',
     );
   }
 }
