@@ -22,7 +22,7 @@ class MyApp extends StatelessWidget {
       ),
       initialRoute: '/',
       routes: {
-        '/': (context) => MainScreen(),
+        '/': (context) => const MainScreen(),
         '/weather': (context) => WeatherScreen(),
         '/movie': (context) => MovieScreen(),
         '/timezone': (context) => TimeZoneScreen(),

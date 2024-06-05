@@ -23,11 +23,15 @@ class MovieApiResponse {
   final String title;
   final String director;
   final String releaseDate;
+  final String description;
+  final String imageUrl;
 
   MovieApiResponse({
     required this.title,
     required this.director,
     required this.releaseDate,
+    required this.description,
+    required this.imageUrl,
   });
 
   factory MovieApiResponse.fromJson(Map<String, dynamic> json) {
@@ -35,6 +39,8 @@ class MovieApiResponse {
       title: json['title'] ?? 'Unknown Title',
       director: json['director'] ?? 'Unknown Director',
       releaseDate: json['release_date'] ?? 'Unknown Release Date',
+      description: json['overview'] ?? 'No Description Available',
+      imageUrl: 'https://image.tmdb.org/t/p/w500${json['poster_path']}' ?? '',
     );
   }
 }

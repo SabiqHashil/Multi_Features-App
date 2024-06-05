@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
+import 'package:multi_app/api/api_response.dart';
 import 'package:multi_app/api/models/movie_data.dart';
 import 'package:multi_app/api/models/news_zone.dart';
 
@@ -77,33 +78,18 @@ class MovieApiClient {
   Future<MovieModel> fetchMovieData(String query) async {
     final response = await http
         .get(Uri.parse('$baseUrl/search/movie?api_key=$apiKey&query=$query'));
+
     if (response.statusCode == 200) {
       final data = json.decode(response.body);
+
       if (data['results'] != null && data['results'].isNotEmpty) {
-        return MovieModel.fromJson(data['results'][0]);
+        final movieApiResponse = MovieApiResponse.fromJson(data['results'][0]);
+        return MovieModel.fromApiResponse(movieApiResponse);
       } else {
         throw Exception('Movie not found');
       }
     } else {
       throw Exception('Failed to load movie data');
     }
-  }
-}
-
-const String apiKey = '5d91f746c410e1818137b90445eaeabe';
-const String baseUrl = 'https://api.themoviedb.org/3';
-
-Future<MovieModel> fetchMovieData(String query) async {
-  final response = await http.get(
-      Uri.parse('$baseUrl/search/movie/movie_id?api_key=$apiKey&query=$query'));
-  if (response.statusCode == 200) {
-    final data = json.decode(response.body);
-    if (data['results'] != null && data['results'].isNotEmpty) {
-      return MovieModel.fromJson(data['results'][0]);
-    } else {
-      throw Exception('Movie not found');
-    }
-  } else {
-    throw Exception('Failed to load movie data');
   }
 }

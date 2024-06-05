@@ -1,4 +1,4 @@
-
+import 'package:multi_app/api/api_response.dart';
 
 class MovieModel {
   final String title;
@@ -13,12 +13,12 @@ class MovieModel {
     required this.imageUrl,
   });
 
-  factory MovieModel.fromJson(Map<String, dynamic> json) {
+  factory MovieModel.fromApiResponse(MovieApiResponse response) {
     return MovieModel(
-      title: json['title'] ?? 'Unknown Title',
-      releaseDate: json['release_date'] ?? 'Unknown Release Date',
-      description: json['overview'] ?? 'No Description Available',
-      imageUrl: 'https://image.tmdb.org/t/p/w500${json['poster_path']}' ?? '',
+      title: response.title,
+      releaseDate: response.releaseDate,
+      description: response.description,
+      imageUrl: response.imageUrl,
     );
   }
 }
