@@ -1,4 +1,3 @@
-import 'dart:async';
 import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
 
@@ -29,53 +28,67 @@ class DBHelper {
     );
   }
 
-  Future _onCreate(Database db, int version) async {
-    await db.execute('''
-      CREATE TABLE weather(
-        id INTEGER PRIMARY KEY AUTOINCREMENT,
-        cityName TEXT,
-        temperature REAL,
-        description TEXT
-      )
-    ''');
-    await db.execute('''
-      CREATE TABLE movie(
-        id INTEGER PRIMARY KEY AUTOINCREMENT,
-        title TEXT,
-        director TEXT,
-        releaseDate TEXT
-      )
-    ''');
-    await db.execute('''
-      CREATE TABLE timezone(
-        id INTEGER PRIMARY KEY AUTOINCREMENT,
-        timeZone TEXT,
-        currentTime TEXT
-      )
-    ''');
-    await db.execute('''
-      CREATE TABLE news(
-        id INTEGER PRIMARY KEY AUTOINCREMENT,
-        title TEXT,
-        description TEXT,
-        url TEXT
-      )
-    ''');
-    await db.execute('''
-      CREATE TABLE jokes(
-        id INTEGER PRIMARY KEY AUTOINCREMENT,
-        joke TEXT
-      )
-    ''');
+  Future<void> _onCreate(Database db, int version) async {
+    try {
+      await db.execute('''
+        CREATE TABLE IF NOT EXISTS weather(
+          id INTEGER PRIMARY KEY AUTOINCREMENT,
+          cityName TEXT,
+          temperature REAL,
+          description TEXT
+        )
+      ''');
+      await db.execute('''
+        CREATE TABLE IF NOT EXISTS movie(
+          id INTEGER PRIMARY KEY AUTOINCREMENT,
+          title TEXT,
+          description TEXT,
+          releaseDate TEXT
+        )
+      ''');
+      await db.execute('''
+        CREATE TABLE IF NOT EXISTS timezone(
+          id INTEGER PRIMARY KEY AUTOINCREMENT,
+          timeZone TEXT,
+          currentTime TEXT
+        )
+      ''');
+      await db.execute('''
+        CREATE TABLE IF NOT EXISTS news(
+          id INTEGER PRIMARY KEY AUTOINCREMENT,
+          title TEXT,
+          description TEXT,
+          url TEXT
+        )
+      ''');
+      await db.execute('''
+        CREATE TABLE IF NOT EXISTS jokes(
+          id INTEGER PRIMARY KEY AUTOINCREMENT,
+          joke TEXT
+        )
+      ''');
+    } catch (e) {
+      print('Error creating tables: $e');
+    }
   }
 
   Future<int> insert(String tableName, Map<String, dynamic> row) async {
     final db = await instance.database;
-    return await db.insert(tableName, row);
+    try {
+      return await db.insert(tableName, row);
+    } catch (e) {
+      print('Error inserting data into $tableName table: $e');
+      return -1;
+    }
   }
 
   Future<List<Map<String, dynamic>>> queryAll(String tableName) async {
     final db = await instance.database;
-    return await db.query(tableName);
+    try {
+      return await db.query(tableName);
+    } catch (e) {
+      print('Error querying data from $tableName table: $e');
+      return [];
+    }
   }
 }
