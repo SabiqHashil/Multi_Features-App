@@ -8,10 +8,13 @@ class TimeZoneModel {
   });
 
   factory TimeZoneModel.fromJson(Map<String, dynamic> json) {
+    final data = json['data'];
+    final timeZone = data != null ? data['timezone']['id'] as String : '';
+    final currentTime =
+        data != null ? data['datetime']['date_time'] as String : '';
     return TimeZoneModel(
-      timeZone: json['data']['timezone']['id'],
-      currentTime: json['data']['datetime']
-          ['date_time'], // Adjust based on your actual JSON structure
+      timeZone: timeZone,
+      currentTime: currentTime,
     );
   }
 }

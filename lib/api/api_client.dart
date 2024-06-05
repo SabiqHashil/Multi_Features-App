@@ -33,20 +33,20 @@ import 'package:multi_app/api/models/news_zone.dart';
 //   }
 // }
 
-// class TimeZoneApiClient {
-//   static const String apiKey = 'YOUR_API_KEY';
-//   static const String baseUrl = 'https://timezoneapi.io/api';
+class TimeZoneApiClient {
+  static const String baseUrl = 'https://timeapi.io/api/Time/current/zone';
 
-//   Future<Map<String, dynamic>> fetchTimeZoneData(String location) async {
-//     final response =
-//         await http.get('$baseUrl/zone?location=$location&token=$apiKey');
-//     if (response.statusCode == 200) {
-//       return json.decode(response.body);
-//     } else {
-//       throw Exception('Failed to load time zone data');
-//     }
-//   }
-// }
+  Future<Map<String, dynamic>> fetchTimeZoneData(String location) async {
+    final Uri url = Uri.parse('$baseUrl?timeZone=$location');
+    final response = await http.get(url);
+
+    if (response.statusCode == 200) {
+      return json.decode(response.body);
+    } else {
+      throw Exception('Failed to load time zone data');
+    }
+  }
+}
 
 class NewsApiClient {
   static const String apiKey =

@@ -49,9 +49,12 @@ class TimeZoneApiResponse {
   });
 
   factory TimeZoneApiResponse.fromJson(Map<String, dynamic> json) {
+    final data = json['data'];
+    final timeZone = data != null ? data['time_zone']['id'] as String : '';
+    final currentTime = data != null ? data['time']['datetime'] as String : '';
     return TimeZoneApiResponse(
-      timeZone: json['data']['time_zone']['id'],
-      currentTime: json['data']['time']['datetime'],
+      timeZone: timeZone,
+      currentTime: currentTime,
     );
   }
 }

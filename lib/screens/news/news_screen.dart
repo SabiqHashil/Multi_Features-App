@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:multi_app/api/models/news_zone.dart';
+import 'package:multi_app/screens/news/news_widget.dart';
 import 'package:provider/provider.dart';
-import 'news_widget.dart';
 
 class NewsScreen extends StatelessWidget {
   @override

@@ -17,26 +17,43 @@ class _JokesScreenState extends State<JokesScreen> {
     _jokeFuture = _jokesApiClient.fetchRandomJoke();
   }
 
+  // Function to fetch random joke
+  Future<void> _fetchRandomJoke() async {
+    setState(() {
+      _jokeFuture = _jokesApiClient.fetchRandomJoke();
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Jokes'),
+        title: Text('Jokes Screen'),
       ),
       body: Center(
-        child: FutureBuilder<String>(
-          future: _jokeFuture,
-          builder: (context, snapshot) {
-            if (snapshot.connectionState == ConnectionState.waiting) {
-              return CircularProgressIndicator();
-            } else if (snapshot.hasError) {
-              return Text('Error: ${snapshot.error}');
-            } else if (snapshot.hasData) {
-              return JokeWidget(snapshot.data!);
-            } else {
-              return Text('No joke found');
-            }
-          },
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            FutureBuilder<String>(
+              future: _jokeFuture,
+              builder: (context, snapshot) {
+                if (snapshot.connectionState == ConnectionState.waiting) {
+                  return CircularProgressIndicator();
+                } else if (snapshot.hasError) {
+                  return Text('Error: ${snapshot.error}');
+                } else if (snapshot.hasData) {
+                  return JokeWidget(snapshot.data!);
+                } else {
+                  return Text('No joke found');
+                }
+              },
+            ),
+            SizedBox(height: 20),
+            ElevatedButton(
+              onPressed: _fetchRandomJoke,
+              child: Text('Fetch Random Joke'),
+            ),
+          ],
         ),
       ),
     );
