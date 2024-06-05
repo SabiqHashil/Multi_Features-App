@@ -49,11 +49,6 @@ class _TimeZoneScreenState extends State<TimeZoneScreen> {
               style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
             ),
             SizedBox(height: 20),
-            ElevatedButton(
-              onPressed: _isLoading ? null : _fetchTimeZoneData,
-              child: Text('Fetch Time Zone Data'),
-            ),
-            SizedBox(height: 20),
             if (_isLoading)
               CircularProgressIndicator()
             else if (_error != null)
@@ -65,9 +60,12 @@ class _TimeZoneScreenState extends State<TimeZoneScreen> {
               TimeZoneWidget(
                 timeZone: _timeZone!,
                 currentTime: _currentTime!,
-              )
-            else
-              Container(),
+              ),
+            SizedBox(height: 20),
+            ElevatedButton(
+              onPressed: _isLoading ? null : _fetchTimeZoneData,
+              child: Text('Fetch Time Zone Data'),
+            ),
           ],
         ),
       ),
