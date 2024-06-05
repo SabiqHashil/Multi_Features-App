@@ -144,7 +144,7 @@ class _TimeZoneScreenState extends State<TimeZoneScreen> {
                       padding: EdgeInsets.zero, // Padding set to zero
                     ),
                     onPressed: _isLoading ? null : _fetchTimeZoneData,
-                    child: const Text('Fetch Data'),
+                    child: const Text('Fetch'),
                   ),
                 ),
                 const SizedBox(width: 10),
@@ -155,7 +155,7 @@ class _TimeZoneScreenState extends State<TimeZoneScreen> {
                       padding: EdgeInsets.zero, // Padding set to zero
                     ),
                     onPressed: _isLoading ? null : _saveTimeZoneData,
-                    child: const Text('Save Data'),
+                    child: const Text('Save'),
                   ),
                 ),
                 const SizedBox(width: 10),
@@ -166,7 +166,7 @@ class _TimeZoneScreenState extends State<TimeZoneScreen> {
                       padding: EdgeInsets.zero, // Padding set to zero
                     ),
                     onPressed: _retrieveTimeZoneData,
-                    child: const Text('Retrieve Data'),
+                    child: const Text('View Saved'),
                   ),
                 ),
               ],

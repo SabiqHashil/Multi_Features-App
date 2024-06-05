@@ -94,7 +94,7 @@ class _JokesScreenState extends State<JokesScreen> {
                         padding: EdgeInsets.zero, // Padding set to zero
                       ),
                       onPressed: _isLoading ? null : _fetchRandomJoke,
-                      child: const Text('Fetch Joke'),
+                      child: const Text('Fetch'),
                     ),
                   ),
                   const SizedBox(width: 10),
@@ -110,7 +110,7 @@ class _JokesScreenState extends State<JokesScreen> {
                               final joke = await _jokeFuture;
                               _saveJoke(joke);
                             },
-                      child: const Text('Save Joke'),
+                      child: const Text('Save'),
                     ),
                   ),
                   const SizedBox(width: 10),
@@ -143,7 +143,7 @@ class _JokesScreenState extends State<JokesScreen> {
                           ),
                         );
                       },
-                      child: const Text('View Saved Jokes'),
+                      child: const Text('View Saved'),
                     ),
                   ),
                 ],
