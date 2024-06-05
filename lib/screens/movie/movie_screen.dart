@@ -11,6 +11,7 @@ class MovieScreen extends StatefulWidget {
   const MovieScreen({super.key});
 
   @override
+  // ignore: library_private_types_in_public_api
   _MovieScreenState createState() => _MovieScreenState();
 }
 
@@ -31,6 +32,14 @@ class _MovieScreenState extends State<MovieScreen> {
         _movieData = data;
         _isLoading = false;
       });
+      if (_movieData == null) {
+        // ignore: use_build_context_synchronously
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(
+            content: Text('No movie fetched.'),
+          ),
+        );
+      }
     } catch (e) {
       setState(() {
         _error = e.toString();
@@ -49,9 +58,18 @@ class _MovieScreenState extends State<MovieScreen> {
         'releaseDate': _movieData!.releaseDate,
         'image': imageBytes,
       });
-      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-        content: Text('Movie data saved to local storage.'),
-      ));
+      // ignore: use_build_context_synchronously
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('Movie saved to local storage.'),
+        ),
+      );
+    } else {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('No movie to save.'),
+        ),
+      );
     }
   }
 
@@ -70,7 +88,7 @@ class _MovieScreenState extends State<MovieScreen> {
   void _showSavedMovies() {
     Navigator.push(
       context,
-      MaterialPageRoute(builder: (context) => SavedMoviesScreen()),
+      MaterialPageRoute(builder: (context) => const SavedMoviesScreen()),
     );
   }
 
@@ -83,11 +101,11 @@ class _MovieScreenState extends State<MovieScreen> {
         title: const Text('Movie Details Search'),
         actions: [
           IconButton(
-            icon: Icon(Icons.save),
+            icon: const Icon(Icons.save, color: Colors.lightGreen),
             onPressed: _saveMovieData,
           ),
           IconButton(
-            icon: Icon(Icons.list),
+            icon: const Icon(Icons.list, color: Colors.orangeAccent),
             onPressed: _showSavedMovies,
           ),
         ],
@@ -115,6 +133,12 @@ class _MovieScreenState extends State<MovieScreen> {
                   final query = controller.text;
                   if (query.isNotEmpty) {
                     _fetchMovieData(query);
+                  } else {
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      const SnackBar(
+                        content: Text('Please enter a movie name.'),
+                      ),
+                    );
                   }
                 },
                 child: const Text('Fetch Movie Data'),

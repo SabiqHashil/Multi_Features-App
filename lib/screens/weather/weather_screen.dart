@@ -4,9 +4,10 @@ import 'package:multi_app/helpers/dbHelper.dart';
 import 'package:multi_app/screens/weather/weather_widget.dart';
 
 class WeatherScreen extends StatefulWidget {
-  const WeatherScreen({Key? key}) : super(key: key);
+  const WeatherScreen({super.key});
 
   @override
+  // ignore: library_private_types_in_public_api
   _WeatherScreenState createState() => _WeatherScreenState();
 }
 
@@ -26,12 +27,13 @@ class _WeatherScreenState extends State<WeatherScreen> {
         'temperature': _temperature,
         'description': _description,
       });
+      // ignore: use_build_context_synchronously
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Weather data saved')),
+        const SnackBar(content: Text('Weather data saved')),
       );
     } else {
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('No weather data to save')),
+        const SnackBar(content: Text('No weather data to save')),
       );
     }
   }
@@ -40,20 +42,28 @@ class _WeatherScreenState extends State<WeatherScreen> {
   Future<void> _retrieveWeatherData() async {
     List<Map<String, dynamic>> savedData =
         await DBHelper.instance.queryAll('weather');
+
     // Display popup with saved data
     showDialog(
+      // ignore: use_build_context_synchronously
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
-          title: Text('Saved Weather Data'),
+          title: const Text('Saved Weather'),
           content: SingleChildScrollView(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: savedData.map((data) {
-                return ListTile(
-                  title: Text('City: ${data['cityName']}'),
-                  subtitle: Text(
-                      'Temperature: ${data['temperature']}, Description: ${data['description']}'),
+                return Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    ListTile(
+                      title: Text('City: ${data['cityName']}'),
+                      subtitle: Text(
+                          'Temperature: ${data['temperature']}, Description: ${data['description']}'),
+                    ),
+                    const Divider(), // Add a divider between each content item
+                  ],
                 );
               }).toList(),
             ),
@@ -63,7 +73,14 @@ class _WeatherScreenState extends State<WeatherScreen> {
               onPressed: () {
                 Navigator.of(context).pop();
               },
-              child: Text('Close'),
+              style: TextButton.styleFrom(
+                backgroundColor:
+                    Colors.red[500], // Set the background color to red
+              ),
+              child: const Text(
+                'Close',
+                style: TextStyle(color: Colors.white),
+              ),
             ),
           ],
         );

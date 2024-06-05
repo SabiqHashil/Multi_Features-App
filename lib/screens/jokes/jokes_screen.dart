@@ -4,9 +4,10 @@ import 'package:multi_app/helpers/dbHelper.dart';
 import 'package:multi_app/screens/jokes/jokes_widget.dart';
 
 class JokesScreen extends StatefulWidget {
-  const JokesScreen({Key? key}) : super(key: key);
+  const JokesScreen({super.key});
 
   @override
+  // ignore: library_private_types_in_public_api
   _JokesScreenState createState() => _JokesScreenState();
 }
 
@@ -22,37 +23,33 @@ class _JokesScreenState extends State<JokesScreen> {
     _jokeFuture = _jokesApiClient.fetchRandomJoke();
   }
 
-  // Function to fetch random joke
   Future<void> _fetchRandomJoke() async {
     setState(() {
       _isLoading = true;
       _jokeFuture = _jokesApiClient.fetchRandomJoke();
     });
-    await _jokeFuture; // Wait for the joke to be fetched
+    await _jokeFuture;
     setState(() {
       _isLoading = false;
     });
   }
 
-  // Function to save joke
   Future<void> _saveJoke(String joke) async {
     await _dbHelper.insert('jokes', {'joke': joke});
+    // ignore: use_build_context_synchronously
     ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(
-        content: const Text('Joke saved successfully!'),
+      const SnackBar(
+        content: Text('Joke saved successfully!'),
         behavior: SnackBarBehavior.floating,
-        margin: const EdgeInsets.only(top: 50.0, left: 10.0, right: 10.0),
-        duration: const Duration(seconds: 2),
+        margin: EdgeInsets.only(top: 50.0, left: 10.0, right: 10.0),
+        duration: Duration(seconds: 2),
       ),
     );
   }
 
-  // Function to retrieve saved jokes
   Future<List<String>> _getSavedJokes() async {
     final List<Map<String, dynamic>> jokes = await _dbHelper.queryAll('jokes');
-    return jokes.reversed
-        .map((joke) => joke['joke'] as String)
-        .toList(); // Reverse to show the latest first
+    return jokes.reversed.map((joke) => joke['joke'] as String).toList();
   }
 
   @override
@@ -82,7 +79,7 @@ class _JokesScreenState extends State<JokesScreen> {
                 },
               ),
             ),
-            const Spacer(), // To push the buttons to the bottom
+            const Spacer(),
             Padding(
               padding: const EdgeInsets.all(10),
               child: Row(
@@ -91,7 +88,7 @@ class _JokesScreenState extends State<JokesScreen> {
                     child: ElevatedButton(
                       style: ElevatedButton.styleFrom(
                         backgroundColor: Colors.lightBlueAccent,
-                        padding: EdgeInsets.zero, // Padding set to zero
+                        padding: EdgeInsets.zero,
                       ),
                       onPressed: _isLoading ? null : _fetchRandomJoke,
                       child: const Text('Fetch'),
@@ -102,7 +99,7 @@ class _JokesScreenState extends State<JokesScreen> {
                     child: ElevatedButton(
                       style: ElevatedButton.styleFrom(
                         backgroundColor: Colors.lightGreen,
-                        padding: EdgeInsets.zero, // Padding set to zero
+                        padding: EdgeInsets.zero,
                       ),
                       onPressed: _isLoading
                           ? null
@@ -118,11 +115,12 @@ class _JokesScreenState extends State<JokesScreen> {
                     child: ElevatedButton(
                       style: ElevatedButton.styleFrom(
                         backgroundColor: Colors.orangeAccent,
-                        padding: EdgeInsets.zero, // Padding set to zero
+                        padding: EdgeInsets.zero,
                       ),
                       onPressed: () async {
                         final savedJokes = await _getSavedJokes();
                         showDialog(
+                          // ignore: use_build_context_synchronously
                           context: context,
                           builder: (context) => AlertDialog(
                             title: const Text('Saved Jokes'),
@@ -130,14 +128,24 @@ class _JokesScreenState extends State<JokesScreen> {
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: savedJokes
-                                    .map((joke) => Text('* $joke'))
+                                    .expand((joke) =>
+                                        [Text('* $joke'), const Divider()])
                                     .toList(),
                               ),
                             ),
                             actions: [
                               TextButton(
                                 onPressed: () => Navigator.pop(context),
-                                child: const Text('Close'),
+                                style: TextButton.styleFrom(
+                                  backgroundColor: Colors.red[
+                                      500], // Set the background color to red
+                                ),
+                                child: const Text(
+                                  'Close',
+                                  style: TextStyle(
+                                      color: Colors
+                                          .white), // Set the text color to white
+                                ),
                               ),
                             ],
                           ),

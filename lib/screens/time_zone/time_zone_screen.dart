@@ -7,6 +7,7 @@ class TimeZoneScreen extends StatefulWidget {
   const TimeZoneScreen({super.key});
 
   @override
+  // ignore: library_private_types_in_public_api
   _TimeZoneScreenState createState() => _TimeZoneScreenState();
 }
 
@@ -45,21 +46,22 @@ class _TimeZoneScreenState extends State<TimeZoneScreen> {
         'currentTime': _currentTime!,
       };
       await _dbHelper.insert('timezone', row);
+      // ignore: use_build_context_synchronously
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: const Text('Data saved successfully!'),
+        const SnackBar(
+          content: Text('Data saved successfully!'),
           behavior: SnackBarBehavior.floating,
-          margin: const EdgeInsets.only(top: 50.0, left: 10.0, right: 10.0),
-          duration: const Duration(seconds: 2),
+          margin: EdgeInsets.only(top: 50.0, left: 10.0, right: 10.0),
+          duration: Duration(seconds: 2),
         ),
       );
     } else {
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: const Text('No data to save!'),
+        const SnackBar(
+          content: Text('No data to save!'),
           behavior: SnackBarBehavior.floating,
-          margin: const EdgeInsets.only(top: 50.0, left: 10.0, right: 10.0),
-          duration: const Duration(seconds: 2),
+          margin: EdgeInsets.only(top: 50.0, left: 10.0, right: 10.0),
+          duration: Duration(seconds: 2),
         ),
       );
     }
@@ -71,15 +73,27 @@ class _TimeZoneScreenState extends State<TimeZoneScreen> {
       data = data.reversed
           .toList(); // Reverse the order to show the latest data first
       showDialog(
+        // ignore: use_build_context_synchronously
         context: context,
         builder: (context) {
           return AlertDialog(
-            title: const Text('Saved Time Zone Data'),
+            title: const Text('Saved Time Zone'),
             content: SingleChildScrollView(
               child: ListBody(
                 children: data.map((entry) {
-                  return Text(
-                      'Time Zone: ${entry['timeZone']}\nCurrent Time: ${entry['currentTime']}\n');
+                  return Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        'Time Zone: ${entry['timeZone']}',
+                      ),
+
+                      Text(
+                        'Current Time: ${entry['currentTime']}',
+                      ),
+                      const Divider(), // Add a divider after each currentTime entry
+                    ],
+                  );
                 }).toList(),
               ),
             ),
@@ -88,19 +102,27 @@ class _TimeZoneScreenState extends State<TimeZoneScreen> {
                 onPressed: () {
                   Navigator.of(context).pop();
                 },
-                child: const Text('OK'),
+                style: TextButton.styleFrom(
+                  backgroundColor:
+                      Colors.red[500], // Set the background color to red
+                ),
+                child: const Text(
+                  'Close',
+                  style: TextStyle(color: Colors.white),
+                ),
               ),
             ],
           );
         },
       );
     } else {
+      // ignore: use_build_context_synchronously
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: const Text('No saved data found!'),
+        const SnackBar(
+          content: Text('No saved data found!'),
           behavior: SnackBarBehavior.floating,
-          margin: const EdgeInsets.only(top: 50.0, left: 10.0, right: 10.0),
-          duration: const Duration(seconds: 2),
+          margin: EdgeInsets.only(top: 50.0, left: 10.0, right: 10.0),
+          duration: Duration(seconds: 2),
         ),
       );
     }

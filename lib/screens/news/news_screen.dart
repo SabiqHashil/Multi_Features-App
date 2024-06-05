@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:multi_app/api/models/news_zone.dart';
+import 'package:multi_app/helpers/dbHelper.dart';
 import 'package:multi_app/screens/news/news_widget.dart';
+import 'package:multi_app/screens/news/saved_news.dart';
 import 'package:provider/provider.dart';
 
 class NewsScreen extends StatelessWidget {
@@ -42,16 +44,51 @@ class NewsScreen extends StatelessWidget {
                   itemCount: newsProvider.news.length,
                   itemBuilder: (context, index) {
                     final article = newsProvider.news[index];
-                    return NewsWidget(
-                      title: article.title,
-                      description: article.description,
-                      url: article.url,
+                    return Column(
+                      children: [
+                        NewsWidget(
+                          title: article.title,
+                          description: article.description,
+                          url: article.url,
+                        ),
+                        ElevatedButton(
+                          style: ButtonStyle(
+                            backgroundColor: WidgetStateProperty.all<Color>(
+                                Colors.lightGreen),
+                          ),
+                          onPressed: () {
+                            DBHelper.instance.insert('news', {
+                              'title': article.title,
+                              'description': article.description,
+                              'url': article.url,
+                            });
+                            // Show Snackbar when news is saved successfully
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              const SnackBar(
+                                content: Text('News saved successfully'),
+                                duration: Duration(seconds: 2),
+                              ),
+                            );
+                          },
+                          child: const Text('Save'),
+                        ),
+                      ],
                     );
                   },
                 );
               }
             },
           ),
+        ),
+        floatingActionButton: FloatingActionButton(
+          onPressed: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => SavedNewsScreen()),
+            );
+          },
+          backgroundColor: Colors.orangeAccent,
+          child: const Icon(Icons.list),
         ),
       ),
     );
