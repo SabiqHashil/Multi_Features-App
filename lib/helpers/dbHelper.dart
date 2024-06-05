@@ -31,6 +31,14 @@ class DBHelper {
   Future<void> _onCreate(Database db, int version) async {
     try {
       await db.execute('''
+        CREATE TABLE IF NOT EXISTS news(
+          id INTEGER PRIMARY KEY AUTOINCREMENT,
+          title TEXT,
+          description TEXT,
+          url TEXT
+        )
+      ''');
+      await db.execute('''
         CREATE TABLE IF NOT EXISTS weather(
           id INTEGER PRIMARY KEY AUTOINCREMENT,
           cityName TEXT,
@@ -43,7 +51,8 @@ class DBHelper {
           id INTEGER PRIMARY KEY AUTOINCREMENT,
           title TEXT,
           description TEXT,
-          releaseDate TEXT
+          releaseDate TEXT,
+          image BLOB
         )
       ''');
       await db.execute('''
@@ -51,14 +60,6 @@ class DBHelper {
           id INTEGER PRIMARY KEY AUTOINCREMENT,
           timeZone TEXT,
           currentTime TEXT
-        )
-      ''');
-      await db.execute('''
-        CREATE TABLE IF NOT EXISTS news(
-          id INTEGER PRIMARY KEY AUTOINCREMENT,
-          title TEXT,
-          description TEXT,
-          url TEXT
         )
       ''');
       await db.execute('''
@@ -82,10 +83,11 @@ class DBHelper {
     }
   }
 
-  Future<List<Map<String, dynamic>>> queryAll(String tableName) async {
+  Future<List<Map<String, dynamic>>> queryAll(String tableName,
+      {String? orderBy}) async {
     final db = await instance.database;
     try {
-      return await db.query(tableName);
+      return await db.query(tableName, orderBy: orderBy);
     } catch (e) {
       print('Error querying data from $tableName table: $e');
       return [];

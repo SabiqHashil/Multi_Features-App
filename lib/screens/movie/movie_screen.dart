@@ -1,7 +1,11 @@
+import 'dart:typed_data';
 import 'package:flutter/material.dart';
 import 'package:multi_app/api/api_client.dart';
 import 'package:multi_app/api/models/movie_data.dart';
 import 'package:multi_app/screens/movie/movie_widget.dart';
+import 'package:multi_app/helpers/dbHelper.dart';
+import 'package:http/http.dart' as http;
+import 'package:multi_app/screens/movie/saved_movies.dart';
 
 class MovieScreen extends StatefulWidget {
   const MovieScreen({super.key});
@@ -35,6 +39,41 @@ class _MovieScreenState extends State<MovieScreen> {
     }
   }
 
+  Future<void> _saveMovieData() async {
+    if (_movieData != null) {
+      final dbHelper = DBHelper.instance;
+      final imageBytes = await _fetchImageBytes(_movieData!.imageUrl);
+      await dbHelper.insert('movie', {
+        'title': _movieData!.title,
+        'description': _movieData!.description,
+        'releaseDate': _movieData!.releaseDate,
+        'image': imageBytes,
+      });
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+        content: Text('Movie data saved to local storage.'),
+      ));
+    }
+  }
+
+  Future<Uint8List?> _fetchImageBytes(String imageUrl) async {
+    try {
+      final response = await http.get(Uri.parse(imageUrl));
+      if (response.statusCode == 200) {
+        return response.bodyBytes;
+      }
+    } catch (e) {
+      print('Error fetching image: $e');
+    }
+    return null;
+  }
+
+  void _showSavedMovies() {
+    Navigator.push(
+      context,
+      MaterialPageRoute(builder: (context) => SavedMoviesScreen()),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     final TextEditingController controller = TextEditingController();
@@ -42,6 +81,16 @@ class _MovieScreenState extends State<MovieScreen> {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Movie Details Search'),
+        actions: [
+          IconButton(
+            icon: Icon(Icons.save),
+            onPressed: _saveMovieData,
+          ),
+          IconButton(
+            icon: Icon(Icons.list),
+            onPressed: _showSavedMovies,
+          ),
+        ],
       ),
       body: SingleChildScrollView(
         child: Padding(
