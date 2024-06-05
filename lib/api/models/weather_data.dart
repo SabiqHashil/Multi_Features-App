@@ -13,7 +13,7 @@ class WeatherModel {
     return WeatherModel(
       cityName: json['name'],
       temperature:
-          json['main']['temp'] - 273.15, // Convert from Kelvin to Celsius
+          (json['main']['temp'] - 273.15), // Convert from Kelvin to Celsius
       description: json['weather'][0]['description'],
     );
   }

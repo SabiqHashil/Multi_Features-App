@@ -3,20 +3,21 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:multi_app/api/models/news_zone.dart';
 
-// class WeatherApiClient {
-//   static const String apiKey = 'YOUR_API_KEY';
-//   static const String baseUrl =
-//       'https://api.openweathermap.org/data/2.5/weather';
+class WeatherApiClient {
+  static const String apiKey = '86eb5b738aec431091b65610240506';
+  static const String baseUrl = 'http://api.weatherapi.com/v1';
 
-//   Future<Map<String, dynamic>> fetchWeatherData(String cityName) async {
-//     final response = await http.get('$baseUrl?q=$cityName&appid=$apiKey');
-//     if (response.statusCode == 200) {
-//       return json.decode(response.body);
-//     } else {
-//       throw Exception('Failed to load weather data');
-//     }
-//   }
-// }
+  Future<Map<String, dynamic>> fetchWeatherData(String city) async {
+    final response =
+        await http.get(Uri.parse('$baseUrl/current.json?key=$apiKey&q=$city'));
+    if (response.statusCode == 200) {
+      final Map<String, dynamic> responseData = json.decode(response.body);
+      return responseData;
+    } else {
+      throw Exception('Failed to load weather data');
+    }
+  }
+}
 
 // class MovieApiClient {
 //   static const String apiKey = 'YOUR_API_KEY';
