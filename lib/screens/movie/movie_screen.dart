@@ -4,6 +4,8 @@ import 'package:multi_app/api/models/movie_data.dart';
 import 'package:multi_app/screens/movie/movie_widget.dart';
 
 class MovieScreen extends StatefulWidget {
+  const MovieScreen({super.key});
+
   @override
   _MovieScreenState createState() => _MovieScreenState();
 }
@@ -35,11 +37,11 @@ class _MovieScreenState extends State<MovieScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final TextEditingController _controller = TextEditingController();
+    final TextEditingController controller = TextEditingController();
 
     return Scaffold(
       appBar: AppBar(
-        title: Text('Movie Screen'),
+        title: const Text('Movie Details Search'),
       ),
       body: SingleChildScrollView(
         child: Padding(
@@ -47,35 +49,34 @@ class _MovieScreenState extends State<MovieScreen> {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.start,
             children: [
-              Text(
-                'Search for a Movie',
-                style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
-              ),
-              SizedBox(height: 20),
+              const SizedBox(height: 20),
               TextField(
-                controller: _controller,
-                decoration: InputDecoration(
+                controller: controller,
+                decoration: const InputDecoration(
                   hintText: 'Enter movie name',
                   border: OutlineInputBorder(),
                 ),
               ),
-              SizedBox(height: 20),
+              const SizedBox(height: 20),
               ElevatedButton(
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: Colors.lightBlueAccent,
+                ),
                 onPressed: () {
-                  final query = _controller.text;
+                  final query = controller.text;
                   if (query.isNotEmpty) {
                     _fetchMovieData(query);
                   }
                 },
-                child: Text('Fetch Movie Data'),
+                child: const Text('Fetch Movie Data'),
               ),
-              SizedBox(height: 20),
+              const SizedBox(height: 20),
               if (_isLoading)
-                CircularProgressIndicator()
+                const CircularProgressIndicator()
               else if (_error != null)
                 Text(
                   'Error: $_error',
-                  style: TextStyle(color: Colors.red),
+                  style: const TextStyle(color: Colors.red),
                 )
               else if (_movieData != null)
                 MovieWidget(

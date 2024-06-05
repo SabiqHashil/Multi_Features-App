@@ -24,11 +24,11 @@ class NewsApiClient {
   static const String apiKey =
       'e2597e2fe2cb4c98a79e3b120f8a760e'; // Use your own API key
   static const String baseUrl = 'https://newsapi.org/v2';
-  static const String defaultCategory = 'technology';
+  static const String defaultCategory = 'general';
 
   Future<List<NewsModel>> fetchNewsData(String category) async {
     final response = await http.get(
-      Uri.parse('$baseUrl/top-headlines?country=us&apiKey=$apiKey'),
+      Uri.parse('$baseUrl/top-headlines?country=in&apiKey=$apiKey'),
     );
     if (response.statusCode == 200) {
       final Map<String, dynamic> data = json.decode(response.body);

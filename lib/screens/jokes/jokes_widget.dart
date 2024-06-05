@@ -7,11 +7,15 @@ class JokeWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      padding: const EdgeInsets.all(16.0),
-      child: Text(
-        joke,
-        style: const TextStyle(fontSize: 18.0),
+    return Card(
+      color: Colors.grey[300], // Light blue background color
+      margin: const EdgeInsets.all(16.0),
+      child: Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: Text(
+          joke,
+          style: const TextStyle(fontSize: 18.0),
+        ),
       ),
     );
   }

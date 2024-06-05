@@ -4,13 +4,15 @@ import 'package:multi_app/screens/news/news_widget.dart';
 import 'package:provider/provider.dart';
 
 class NewsScreen extends StatelessWidget {
+  const NewsScreen({super.key});
+
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider(
       create: (context) => NewsProvider()..fetchNews('technology'),
       child: Scaffold(
         appBar: AppBar(
-          title: Text('News Screen'),
+          title: const Text('General News'),
         ),
         body: Center(
           child: Consumer<NewsProvider>(
@@ -22,19 +24,19 @@ class NewsScreen extends StatelessWidget {
                     children: [
                       Text(
                         'Error: ${newsProvider.errorMessage}',
-                        style: TextStyle(color: Colors.red),
+                        style: const TextStyle(color: Colors.red),
                         textAlign: TextAlign.center,
                       ),
-                      SizedBox(height: 10),
+                      const SizedBox(height: 10),
                       ElevatedButton(
                         onPressed: () => newsProvider.fetchNews('technology'),
-                        child: Text('Retry'),
+                        child: const Text('Retry'),
                       ),
                     ],
                   ),
                 );
               } else if (newsProvider.news.isEmpty) {
-                return Center(child: CircularProgressIndicator());
+                return const Center(child: CircularProgressIndicator());
               } else {
                 return ListView.builder(
                   itemCount: newsProvider.news.length,

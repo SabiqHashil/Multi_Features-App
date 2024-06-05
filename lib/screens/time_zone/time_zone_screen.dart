@@ -3,6 +3,8 @@ import 'package:multi_app/api/api_client.dart';
 import 'package:multi_app/screens/time_zone/time_zone_widget.dart';
 
 class TimeZoneScreen extends StatefulWidget {
+  const TimeZoneScreen({super.key});
+
   @override
   _TimeZoneScreenState createState() => _TimeZoneScreenState();
 }
@@ -19,9 +21,9 @@ class _TimeZoneScreenState extends State<TimeZoneScreen> {
       _isLoading = true;
     });
     try {
-      final data = await _apiClient.fetchTimeZoneData('Europe/Amsterdam');
+      final data = await _apiClient.fetchTimeZoneData('Asia/Kolkata');
       setState(() {
-        _timeZone = 'Europe/Amsterdam';
+        _timeZone = 'Asia/Kolkata';
         _currentTime = data['dateTime'];
         _error = null;
         _isLoading = false;
@@ -38,36 +40,41 @@ class _TimeZoneScreenState extends State<TimeZoneScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Time Zone Screen'),
+        title: const Text('Current Date and Time Zone'),
       ),
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Text(
-              'Time Zone Data',
-              style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
-            ),
-            SizedBox(height: 20),
-            if (_isLoading)
-              CircularProgressIndicator()
-            else if (_error != null)
-              Text(
-                'Error: $_error',
-                style: TextStyle(color: Colors.red),
-              )
-            else if (_timeZone != null && _currentTime != null)
-              TimeZoneWidget(
-                timeZone: _timeZone!,
-                currentTime: _currentTime!,
+      body: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          Padding(
+            padding: const EdgeInsets.all(10),
+            child: _timeZone != null && _currentTime != null
+                ? TimeZoneWidget(
+                    timeZone: _timeZone!,
+                    currentTime: _currentTime!,
+                  )
+                : _isLoading
+                    ? const CircularProgressIndicator()
+                    : _error != null
+                        ? Text(
+                            'Error: $_error',
+                            style: const TextStyle(color: Colors.red),
+                          )
+                        : const SizedBox(), // Placeholder if no data fetched yet
+          ),
+          const Spacer(), // To push the button to the bottom
+
+          Padding(
+            padding: const EdgeInsets.all(10),
+            child: ElevatedButton(
+              style: ElevatedButton.styleFrom(
+                backgroundColor: Colors.lightBlueAccent,
+                padding: EdgeInsets.zero, // Padding set to zero
               ),
-            SizedBox(height: 20),
-            ElevatedButton(
               onPressed: _isLoading ? null : _fetchTimeZoneData,
-              child: Text('Fetch Time Zone Data'),
+              child: const Text('Fetch Time Zone Data'),
             ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }

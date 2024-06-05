@@ -6,7 +6,8 @@ class MovieWidget extends StatelessWidget {
   final String description;
   final String imageUrl;
 
-  MovieWidget({
+  const MovieWidget({
+    super.key,
     required this.title,
     required this.releaseDate,
     required this.description,
@@ -17,30 +18,31 @@ class MovieWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return Card(
       elevation: 4,
-      margin: EdgeInsets.all(10),
+      margin: const EdgeInsets.all(10),
+      color: Colors.grey[300], // Setting background color to grey 200
       child: Padding(
-        padding: EdgeInsets.all(10),
+        padding: const EdgeInsets.all(10),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
               'Title: $title',
-              style: TextStyle(
+              style: const TextStyle(
                 fontSize: 18,
                 fontWeight: FontWeight.bold,
               ),
             ),
-            SizedBox(height: 5),
+            const SizedBox(height: 5),
             Text(
               'Release Date: $releaseDate',
-              style: TextStyle(fontSize: 16),
+              style: const TextStyle(fontSize: 16),
             ),
-            SizedBox(height: 5),
+            const SizedBox(height: 5),
             Text(
               'Description: $description',
-              style: TextStyle(fontSize: 16),
+              style: const TextStyle(fontSize: 16),
             ),
-            SizedBox(height: 5),
+            const SizedBox(height: 5),
             // Check if imageUrl is not null and not empty before displaying the image
             if (imageUrl.isNotEmpty)
               Image.network(
@@ -49,11 +51,11 @@ class MovieWidget extends StatelessWidget {
                 height: 500,
                 fit: BoxFit.cover,
                 errorBuilder: (context, error, stackTrace) {
-                  return Text('Image not available');
+                  return const Text('Image not available');
                 },
               )
             else
-              Text('Image not available'),
+              const Text('Image not available'),
           ],
         ),
       ),

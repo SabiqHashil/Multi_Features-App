@@ -5,7 +5,7 @@ class WeatherWidget extends StatelessWidget {
   final double temperature;
   final String description;
 
-  WeatherWidget({
+  const WeatherWidget({super.key, 
     required this.city,
     required this.temperature,
     required this.description,
@@ -15,28 +15,29 @@ class WeatherWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return Card(
       elevation: 4,
-      margin: EdgeInsets.all(10),
+      margin: const EdgeInsets.all(10),
+      color: Colors.grey[300], // Setting background color to grey 200
       child: Padding(
-        padding: EdgeInsets.all(10),
+        padding: const EdgeInsets.all(10),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
               'City: $city',
-              style: TextStyle(
+              style: const TextStyle(
                 fontSize: 18,
                 fontWeight: FontWeight.bold,
               ),
             ),
-            SizedBox(height: 5),
+            const SizedBox(height: 5),
             Text(
               'Temperature: $temperature°C',
-              style: TextStyle(fontSize: 16),
+              style: const TextStyle(fontSize: 16),
             ),
-            SizedBox(height: 5),
+            const SizedBox(height: 5),
             Text(
               'Description: $description',
-              style: TextStyle(fontSize: 16),
+              style: const TextStyle(fontSize: 16),
             ),
           ],
         ),

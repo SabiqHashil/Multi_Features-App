@@ -7,10 +7,12 @@ import 'package:multi_app/screens/time_zone/time_zone_screen.dart';
 import 'package:multi_app/screens/weather/weather_screen.dart';
 
 void main() {
-  runApp(MyApp());
+  runApp(const MyApp());
 }
 
 class MyApp extends StatelessWidget {
+  const MyApp({super.key});
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -23,11 +25,11 @@ class MyApp extends StatelessWidget {
       initialRoute: '/',
       routes: {
         '/': (context) => const MainScreen(),
-        '/weather': (context) => WeatherScreen(),
-        '/movie': (context) => MovieScreen(),
-        '/timezone': (context) => TimeZoneScreen(),
-        '/news': (context) => NewsScreen(),
-        '/jokes': (context) => JokesScreen(),
+        '/weather': (context) => const WeatherScreen(),
+        '/movie': (context) => const MovieScreen(),
+        '/timezone': (context) => const TimeZoneScreen(),
+        '/news': (context) => const NewsScreen(),
+        '/jokes': (context) => const JokesScreen(),
       },
     );
   }

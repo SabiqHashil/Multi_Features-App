@@ -4,7 +4,7 @@ import 'package:sqflite/sqflite.dart';
 
 class DBHelper {
   static final DBHelper _instance = DBHelper._internal();
-  static Database? _database;
+  static late Database _database;
 
   factory DBHelper() {
     return _instance;
@@ -15,15 +15,12 @@ class DBHelper {
   static DBHelper get instance => _instance;
 
   Future<Database> get database async {
-    if (_database != null) return _database!;
-
-    // If _database is null, instantiate it
     _database = await _initDB();
-    return _database!;
+    return _database;
   }
 
   Future<Database> _initDB() async {
-    String path = join(await getDatabasesPath(), 'app_database.db');
+    final String path = join(await getDatabasesPath(), 'app_database.db');
 
     return await openDatabase(
       path,
@@ -72,58 +69,13 @@ class DBHelper {
     ''');
   }
 
-  // Methods for Weather table
-  Future<int> insertWeather(Map<String, dynamic> row) async {
-    Database db = await instance.database;
-    return await db.insert('weather', row);
+  Future<int> insert(String tableName, Map<String, dynamic> row) async {
+    final db = await instance.database;
+    return await db.insert(tableName, row);
   }
 
-  Future<List<Map<String, dynamic>>> queryAllWeather() async {
-    Database db = await instance.database;
-    return await db.query('weather');
-  }
-
-  // Methods for Movie table
-  Future<int> insertMovie(Map<String, dynamic> row) async {
-    Database db = await instance.database;
-    return await db.insert('movie', row);
-  }
-
-  Future<List<Map<String, dynamic>>> queryAllMovies() async {
-    Database db = await instance.database;
-    return await db.query('movie');
-  }
-
-  // Methods for TimeZone table
-  Future<int> insertTimeZone(Map<String, dynamic> row) async {
-    Database db = await instance.database;
-    return await db.insert('timezone', row);
-  }
-
-  Future<List<Map<String, dynamic>>> queryAllTimeZones() async {
-    Database db = await instance.database;
-    return await db.query('timezone');
-  }
-
-  // Methods for News table
-  Future<int> insertNews(Map<String, dynamic> row) async {
-    Database db = await instance.database;
-    return await db.insert('news', row);
-  }
-
-  Future<List<Map<String, dynamic>>> queryAllNews() async {
-    Database db = await instance.database;
-    return await db.query('news');
-  }
-
-  // Methods for Jokes table
-  Future<int> insertJoke(Map<String, dynamic> row) async {
-    Database db = await instance.database;
-    return await db.insert('jokes', row);
-  }
-
-  Future<List<Map<String, dynamic>>> queryAllJokes() async {
-    Database db = await instance.database;
-    return await db.query('jokes');
+  Future<List<Map<String, dynamic>>> queryAll(String tableName) async {
+    final db = await instance.database;
+    return await db.query(tableName);
   }
 }

@@ -1,3 +1,55 @@
+class JokesApiResponse {
+  final String joke;
+
+  JokesApiResponse({required this.joke});
+
+  factory JokesApiResponse.fromJson(Map<String, dynamic> json) {
+    return JokesApiResponse(
+      joke: json['value'],
+    );
+  }
+}
+
+class NewsApiResponse {
+  final String title;
+  final String description;
+  final String url;
+
+  NewsApiResponse({
+    required this.title,
+    required this.description,
+    required this.url,
+  });
+
+  factory NewsApiResponse.fromJson(Map<String, dynamic> json) {
+    return NewsApiResponse(
+      title: json['title'],
+      description: json['description'],
+      url: json['url'],
+    );
+  }
+}
+
+class TimeZoneApiResponse {
+  final String timeZone;
+  final String currentTime;
+
+  TimeZoneApiResponse({
+    required this.timeZone,
+    required this.currentTime,
+  });
+
+  factory TimeZoneApiResponse.fromJson(Map<String, dynamic> json) {
+    final data = json['data'];
+    final timeZone = data != null ? data['time_zone']['id'] as String : '';
+    final currentTime = data != null ? data['time']['datetime'] as String : '';
+    return TimeZoneApiResponse(
+      timeZone: timeZone,
+      currentTime: currentTime,
+    );
+  }
+}
+
 class WeatherApiResponse {
   final String cityName;
   final double temperature;
@@ -40,59 +92,7 @@ class MovieApiResponse {
       director: json['director'] ?? 'Unknown Director',
       releaseDate: json['release_date'] ?? 'Unknown Release Date',
       description: json['overview'] ?? 'No Description Available',
-      imageUrl: 'https://image.tmdb.org/t/p/w500${json['poster_path']}' ?? '',
-    );
-  }
-}
-
-class TimeZoneApiResponse {
-  final String timeZone;
-  final String currentTime;
-
-  TimeZoneApiResponse({
-    required this.timeZone,
-    required this.currentTime,
-  });
-
-  factory TimeZoneApiResponse.fromJson(Map<String, dynamic> json) {
-    final data = json['data'];
-    final timeZone = data != null ? data['time_zone']['id'] as String : '';
-    final currentTime = data != null ? data['time']['datetime'] as String : '';
-    return TimeZoneApiResponse(
-      timeZone: timeZone,
-      currentTime: currentTime,
-    );
-  }
-}
-
-class NewsApiResponse {
-  final String title;
-  final String description;
-  final String url;
-
-  NewsApiResponse({
-    required this.title,
-    required this.description,
-    required this.url,
-  });
-
-  factory NewsApiResponse.fromJson(Map<String, dynamic> json) {
-    return NewsApiResponse(
-      title: json['title'],
-      description: json['description'],
-      url: json['url'],
-    );
-  }
-}
-
-class JokesApiResponse {
-  final String joke;
-
-  JokesApiResponse({required this.joke});
-
-  factory JokesApiResponse.fromJson(Map<String, dynamic> json) {
-    return JokesApiResponse(
-      joke: json['value'],
+      imageUrl: 'https://image.tmdb.org/t/p/w500${json['poster_path']}',
     );
   }
 }

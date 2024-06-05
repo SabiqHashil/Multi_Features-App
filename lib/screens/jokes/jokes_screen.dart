@@ -3,6 +3,8 @@ import 'package:multi_app/api/api_client.dart';
 import 'package:multi_app/screens/jokes/jokes_widget.dart';
 
 class JokesScreen extends StatefulWidget {
+  const JokesScreen({super.key});
+
   @override
   _JokesScreenState createState() => _JokesScreenState();
 }
@@ -28,7 +30,7 @@ class _JokesScreenState extends State<JokesScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Jokes Screen'),
+        title: const Text('Random Jokes'),
       ),
       body: Center(
         child: Column(
@@ -38,21 +40,27 @@ class _JokesScreenState extends State<JokesScreen> {
               future: _jokeFuture,
               builder: (context, snapshot) {
                 if (snapshot.connectionState == ConnectionState.waiting) {
-                  return CircularProgressIndicator();
+                  return const CircularProgressIndicator();
                 } else if (snapshot.hasError) {
                   return Text('Error: ${snapshot.error}');
                 } else if (snapshot.hasData) {
                   return JokeWidget(snapshot.data!);
                 } else {
-                  return Text('No joke found');
+                  return const Text('No joke found');
                 }
               },
             ),
-            SizedBox(height: 20),
+            const Spacer(), // To push the button to the bottom
             ElevatedButton(
+              style: ElevatedButton.styleFrom(
+                backgroundColor: Colors.lightBlueAccent,
+              ),
               onPressed: _fetchRandomJoke,
-              child: Text('Fetch Random Joke'),
+              child: const Text('Fetch Random Joke'),
             ),
+            const SizedBox(
+              height: 20,
+            )
           ],
         ),
       ),

@@ -3,6 +3,8 @@ import 'package:multi_app/api/api_client.dart';
 import 'package:multi_app/screens/weather/weather_widget.dart';
 
 class WeatherScreen extends StatefulWidget {
+  const WeatherScreen({super.key});
+
   @override
   _WeatherScreenState createState() => _WeatherScreenState();
 }
@@ -41,39 +43,40 @@ class _WeatherScreenState extends State<WeatherScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Weather Screen'),
+        title: const Text('Weather Screen'),
       ),
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Text(
-              'Weather Information',
-              style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
-            ),
-            SizedBox(height: 20),
-            if (_isLoading)
-              CircularProgressIndicator()
-            else if (_error != null)
-              Text(
-                'Error: $_error',
-                style: TextStyle(color: Colors.red),
-              )
-            else if (_city != null &&
-                _temperature != null &&
-                _description != null)
-              WeatherWidget(
-                city: _city!,
-                temperature: _temperature!,
-                description: _description!,
-              )
-            else
-              Container(),
-            SizedBox(height: 20),
+            const SizedBox(height: 20),
+            _isLoading
+                ? const LinearProgressIndicator() // Simple horizontal loading indicator
+                : _error != null
+                    ? Text(
+                        'Error: $_error',
+                        style: const TextStyle(color: Colors.red),
+                      )
+                    : _city != null &&
+                            _temperature != null &&
+                            _description != null
+                        ? WeatherWidget(
+                            city: _city!,
+                            temperature: _temperature!,
+                            description: _description!,
+                          )
+                        : Container(),
+            const Spacer(), // To push the button to the bottom
             ElevatedButton(
+              style: ElevatedButton.styleFrom(
+                backgroundColor: Colors.lightBlueAccent,
+              ),
               onPressed: _isLoading ? null : _fetchWeatherData,
-              child: Text('Fetch Weather Data'),
+              child: const Text('Fetch Weather Data'),
             ),
+            const SizedBox(
+              height: 20,
+            )
           ],
         ),
       ),
