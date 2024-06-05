@@ -29,11 +29,11 @@ class _WeatherScreenState extends State<WeatherScreen> {
       });
       // ignore: use_build_context_synchronously
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Weather data saved')),
+        const SnackBar(content: Text('Weather saved')),
       );
     } else {
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('No weather data to save')),
+        const SnackBar(content: Text('No weather to save')),
       );
     }
   }
