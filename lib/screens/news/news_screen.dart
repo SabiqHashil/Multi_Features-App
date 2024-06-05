@@ -1,90 +1,55 @@
 import 'package:flutter/material.dart';
-import 'package:multi_app/api/api_client.dart';
 import 'package:multi_app/api/models/news_zone.dart';
+import 'package:provider/provider.dart';
 import 'news_widget.dart';
 
-class NewsScreen extends StatefulWidget {
-  @override
-  _NewsScreenState createState() => _NewsScreenState();
-}
-
-class _NewsScreenState extends State<NewsScreen> {
-  late Future<List<NewsModel>> _newsFuture;
-  final NewsApiClient _newsApiClient = NewsApiClient();
-
-  @override
-  void initState() {
-    super.initState();
-    _fetchNews();
-  }
-
-  void _fetchNews() {
-    setState(() {
-      _newsFuture = _newsApiClient.fetchNewsData(
-          category: 'technology'); // Change category as needed
-    });
-  }
-
+class NewsScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text('News Screen'),
-      ),
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Text(
-              'News Updates',
-              style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
-            ),
-            SizedBox(height: 20),
-            ElevatedButton(
-              onPressed: _fetchNews,
-              child: Text('Fetch News Updates'),
-            ),
-            SizedBox(height: 20),
-            Expanded(
-              child: FutureBuilder<List<NewsModel>>(
-                future: _newsFuture,
-                builder: (context, snapshot) {
-                  if (snapshot.connectionState == ConnectionState.waiting) {
-                    return Center(child: CircularProgressIndicator());
-                  } else if (snapshot.hasError) {
-                    return Center(
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Text('Error: ${snapshot.error}',
-                              style: TextStyle(color: Colors.red)),
-                          SizedBox(height: 10),
-                          ElevatedButton(
-                            onPressed: _fetchNews,
-                            child: Text('Retry'),
-                          ),
-                        ],
+    return ChangeNotifierProvider(
+      create: (context) => NewsProvider()..fetchNews('technology'),
+      child: Scaffold(
+        appBar: AppBar(
+          title: Text('News Screen'),
+        ),
+        body: Center(
+          child: Consumer<NewsProvider>(
+            builder: (context, newsProvider, child) {
+              if (newsProvider.errorMessage != null) {
+                return Center(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Text(
+                        'Error: ${newsProvider.errorMessage}',
+                        style: TextStyle(color: Colors.red),
+                        textAlign: TextAlign.center,
                       ),
+                      SizedBox(height: 10),
+                      ElevatedButton(
+                        onPressed: () => newsProvider.fetchNews('technology'),
+                        child: Text('Retry'),
+                      ),
+                    ],
+                  ),
+                );
+              } else if (newsProvider.news.isEmpty) {
+                return Center(child: CircularProgressIndicator());
+              } else {
+                return ListView.builder(
+                  itemCount: newsProvider.news.length,
+                  itemBuilder: (context, index) {
+                    final article = newsProvider.news[index];
+                    return NewsWidget(
+                      title: article.title,
+                      description: article.description,
+                      url: article.url,
                     );
-                  } else if (snapshot.hasData) {
-                    List<NewsModel> articles = snapshot.data!;
-                    return ListView.builder(
-                      itemCount: articles.length,
-                      itemBuilder: (context, index) {
-                        return NewsWidget(
-                          title: articles[index].title,
-                          description: articles[index].description,
-                          url: articles[index].url,
-                        );
-                      },
-                    );
-                  } else {
-                    return Center(child: Text('No news found'));
-                  }
-                },
-              ),
-            ),
-          ],
+                  },
+                );
+              }
+            },
+          ),
         ),
       ),
     );

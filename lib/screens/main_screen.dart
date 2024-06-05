@@ -19,6 +19,12 @@ class MainScreen extends StatelessWidget {
             ),
             ElevatedButton(
               onPressed: () {
+                Navigator.pushNamed(context, '/news');
+              },
+              child: Text('News'),
+            ),
+            ElevatedButton(
+              onPressed: () {
                 Navigator.pushNamed(context, '/weather');
               },
               child: Text('Weather'),
@@ -34,12 +40,6 @@ class MainScreen extends StatelessWidget {
                 Navigator.pushNamed(context, '/timezone');
               },
               child: Text('Time Zone'),
-            ),
-            ElevatedButton(
-              onPressed: () {
-                Navigator.pushNamed(context, '/news');
-              },
-              child: Text('News'),
             ),
           ],
         ),
