@@ -43,6 +43,9 @@ class _WeatherScreenState extends State<WeatherScreen> {
     List<Map<String, dynamic>> savedData =
         await DBHelper.instance.queryAll('weather');
 
+    // Sort the data to show the last saved data at the top
+    savedData = savedData.reversed.toList();
+
     // Display popup with saved data
     showDialog(
       // ignore: use_build_context_synchronously

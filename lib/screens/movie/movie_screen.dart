@@ -141,7 +141,7 @@ class _MovieScreenState extends State<MovieScreen> {
                     );
                   }
                 },
-                child: const Text('Fetch Movie Data'),
+                child: const Text('Fetch Movie'),
               ),
               const SizedBox(height: 20),
               if (_isLoading)
