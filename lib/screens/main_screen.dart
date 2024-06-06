@@ -7,7 +7,7 @@ class MainScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Multi Functionalities App'),
+        title: const Text('Multi Features App'),
       ),
       body: ListView(
         padding: const EdgeInsets.all(16.0),
